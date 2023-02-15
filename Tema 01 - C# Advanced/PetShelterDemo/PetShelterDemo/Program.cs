@@ -12,6 +12,7 @@
 
 using PetShelterDemo.DAL;
 using PetShelterDemo.Domain;
+using System.ComponentModel;
 
 var shelter = new PetShelter();
 
@@ -27,9 +28,11 @@ try
             new Dictionary<string, Action>
             {
                 { "Register a newly rescued pet", RegisterPet },
+                 { "Register a Fundraiser", RegisterFundraiser },
                 { "Donate", Donate },
                 { "See current donations total", SeeDonations },
                 { "See our residents", SeePets },
+                 { "See fundraisers", SeeFundraisers },
                 { "Break our database connection", BreakDatabaseConnection },
                 { "Leave:(", Leave }
             }
@@ -51,6 +54,18 @@ void RegisterPet()
     var pet = new Pet(name, description);
 
     shelter.RegisterPet(pet);
+}
+
+
+void RegisterFundraiser()
+{
+    var name = ReadString("Title?");
+    var description = ReadString("Description?");
+    var donationTarget = ReadString("Donation Target");
+
+    var  fundraiser = new Fundraiser(name, description, Int32.Parse(donationTarget));
+
+    shelter.RegisterFundraiser( fundraiser );
 }
 
 void Donate()
@@ -97,6 +112,57 @@ void SeePetDetailsByName(string name)
     var pet = shelter.GetByName(name);
     Console.WriteLine($"A few words about {pet.Name}: {pet.Description}");
 }
+
+void SeeFundraisers()
+{
+
+    var fundraisers = shelter.GetAllFundraisers();
+
+    var fundraiserOptions = new Dictionary<string, Action>();
+    foreach (var fundraiser in fundraisers)
+    {
+        fundraiserOptions.Add(fundraiser.Name, () => SeeFundraiserDetailsByName(fundraiser.Name));
+    }
+
+    PresentOptions("Fundraisers to choose from: ", fundraiserOptions);
+}
+
+
+void SeeFundraiserDetailsByName(string name)
+{
+    var fundraiser = shelter.GetFundraiserByName(name);
+    Console.WriteLine($"About {fundraiser.Name}: {fundraiser.Description}, Donation Target: {fundraiser.DonationTarget}, At the moment: {fundraiser.GetTotalDonations()}");
+    Console.WriteLine(); Console.WriteLine("Current donators: ");
+    foreach (var donor in fundraiser.GetAllDonors())
+    {
+        Console.WriteLine(donor.Name);
+    }
+
+PresentOptions( "Would you like to donate ?",
+           new Dictionary<string, Action>
+           {
+                { "yes", () => DonateToFundraiser(fundraiser)},
+                { "No, thank you.", () =>  {} }
+           }
+       ); 
+}
+
+void DonateToFundraiser(Fundraiser fundraiser)
+{
+    Console.WriteLine("What's your name? (So we can credit you.)");
+    var name = ReadString();
+
+    Console.WriteLine("What's your personal Id? (No, I don't know what GDPR is. Why do you ask?)");
+    var id = ReadString();
+    var person = new Person(name, id);
+
+    Console.WriteLine("How much would you like to donate? (RON)");
+    var ammount = ReadInteger(); 
+
+    fundraiser.Donate(person, ammount);
+} 
+
+
 
 void BreakDatabaseConnection()
 {

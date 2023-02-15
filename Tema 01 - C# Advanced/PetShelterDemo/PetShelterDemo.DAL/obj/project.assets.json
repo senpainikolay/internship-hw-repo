@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nicol\\Desktop\\Cegeka-Intership\\Tema 01 - C# Advanced\\PetShelterDemo\\PetShelterDemo.DAL\\PetShelterDemo.DAL.csproj",
+      "projectUniqueName": "C:\\Users\\nicol\\Desktop\\Cegeka-Intersgip\\internship-hw-repo\\Tema 01 - C# Advanced\\PetShelterDemo\\PetShelterDemo.DAL\\PetShelterDemo.DAL.csproj",
       "projectName": "PetShelterDemo.DAL",
-      "projectPath": "C:\\Users\\nicol\\Desktop\\Cegeka-Intership\\Tema 01 - C# Advanced\\PetShelterDemo\\PetShelterDemo.DAL\\PetShelterDemo.DAL.csproj",
+      "projectPath": "C:\\Users\\nicol\\Desktop\\Cegeka-Intersgip\\internship-hw-repo\\Tema 01 - C# Advanced\\PetShelterDemo\\PetShelterDemo.DAL\\PetShelterDemo.DAL.csproj",
       "packagesPath": "C:\\Users\\nicol\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nicol\\Desktop\\Cegeka-Intership\\Tema 01 - C# Advanced\\PetShelterDemo\\PetShelterDemo.DAL\\obj\\",
+      "outputPath": "C:\\Users\\nicol\\Desktop\\Cegeka-Intersgip\\internship-hw-repo\\Tema 01 - C# Advanced\\PetShelterDemo\\PetShelterDemo.DAL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
