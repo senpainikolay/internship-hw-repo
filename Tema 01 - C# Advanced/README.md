@@ -1,5 +1,9 @@
-### Workflow  
+ 
+#### Did not work on validations so much, so you have to introduce the data how is it asked to ( exmaple, 100 RON, 100 EUR for cases of donations ). 
+#### Will provide a walkthrough later in this day. 
 
+
+#### The CLI commands: 
 
 #### First step is just to create one.
 ``` 
