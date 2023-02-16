@@ -7,13 +7,15 @@ public class PetShelter
     private readonly IRegistry<Pet> petRegistry;
     private readonly IRegistry<Person> donorRegistry;
     private readonly IRegistry<Fundraiser> fundariserRegistry;
-    private int donationsInRon = 0;
+    private Donations donations;
+
 
     public PetShelter()
     {
         donorRegistry = new Registry<Person>(new Database());
         petRegistry = new Registry<Pet>(new Database());
         fundariserRegistry = new Registry<Fundraiser>(new Database());
+        donations = new Donations();
     }
 
     public void RegisterPet(Pet pet)
@@ -31,15 +33,16 @@ public class PetShelter
         return petRegistry.GetByName(name).Result;
     }
 
-    public void Donate(Person donor, int amountInRON)
+    public void Donate(Person donor, int ammount, string currency)
     {
         donorRegistry.Register(donor);
-        donationsInRon += amountInRON;
+        donations.RegisterDonation(ammount, currency);
+
     }
 
-    public int GetTotalDonationsInRON()
+    public string GetTotalDonations()
     {
-        return donationsInRon;
+        return   donations.GetTotalDonations(); ;
     }
 
     public IReadOnlyList<Person> GetAllDonors()

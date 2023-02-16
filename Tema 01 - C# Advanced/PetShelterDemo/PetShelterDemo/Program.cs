@@ -61,9 +61,13 @@ void RegisterFundraiser()
 {
     var name = ReadString("Title?");
     var description = ReadString("Description?");
-    var donationTarget = ReadString("Donation Target");
 
-    var  fundraiser = new Fundraiser(name, description, Int32.Parse(donationTarget));
+    Console.WriteLine("Select the total sum of donation. The target !  Please specify the ammount and  currency (EUR,USD,RON). Example: 100 RON");
+    var userAmmountInput = ReadString();
+    int donationTarget = Int32.Parse(userAmmountInput.Split(" ")[0]);
+    string currencyTarget = userAmmountInput.Split(" ")[1];
+
+    var  fundraiser = new Fundraiser(name, description, currencyTarget, donationTarget);
 
     shelter.RegisterFundraiser( fundraiser );
 }
@@ -77,14 +81,17 @@ void Donate()
     var id = ReadString();
     var person = new Person(name, id);
 
-    Console.WriteLine("How much would you like to donate? (RON)");
-    var amountInRon = ReadInteger();
-    shelter.Donate(person, amountInRon);
+    Console.WriteLine("How much would you like to donate? Please specify the ammound and  currency: RON EUR or USD. Example: 100 RON");
+    var userAmmountInput = ReadString();
+    int ammount = Int32.Parse(userAmmountInput.Split(" ")[0]);
+    string currency = userAmmountInput.Split(" ")[1];
+   
+    shelter.Donate(person, ammount, currency);
 }
 
 void SeeDonations()
 {
-    Console.WriteLine($"Our current donation total is {shelter.GetTotalDonationsInRON()}RON");
+    Console.WriteLine($"Our current donation total is {shelter.GetTotalDonations()}");
     Console.WriteLine("Special thanks to our donors:");
     var donors = shelter.GetAllDonors();
     foreach (var donor in donors)
@@ -131,14 +138,15 @@ void SeeFundraisers()
 void SeeFundraiserDetailsByName(string name)
 {
     var fundraiser = shelter.GetFundraiserByName(name);
-    Console.WriteLine($"About {fundraiser.Name}: {fundraiser.Description}, Donation Target: {fundraiser.DonationTarget}, At the moment: {fundraiser.GetTotalDonations()}");
+    Console.WriteLine($"About {fundraiser.Name}: {fundraiser.Description}, Donation Target: {fundraiser.DonationTarget},{fundraiser.DonationCurrency}, At the moment: {fundraiser.GetTotalDonations()}");
+    Console.WriteLine($"Total ammount in target currency: {fundraiser.GetConvertedAmmountInTargetCurrency()}"); 
     Console.WriteLine(); Console.WriteLine("Current donators: ");
     foreach (var donor in fundraiser.GetAllDonors())
     {
         Console.WriteLine(donor.Name);
     }
 
-PresentOptions( "Would you like to donate ?",
+      PresentOptions( "Would you like to donate ?",
            new Dictionary<string, Action>
            {
                 { "yes", () => DonateToFundraiser(fundraiser)},
@@ -156,11 +164,14 @@ void DonateToFundraiser(Fundraiser fundraiser)
     var id = ReadString();
     var person = new Person(name, id);
 
-    Console.WriteLine("How much would you like to donate? (RON)");
-    var ammount = ReadInteger(); 
+    Console.WriteLine("How much would you like to donate? Please specify the ammound and  currency: RON EUR or USD. Example: 100 RON");
+    var userAmmountInput = ReadString();
+    int ammount = Int32.Parse(userAmmountInput.Split(" ")[0]);
+    string currency = userAmmountInput.Split(" ")[1];
 
-    fundraiser.Donate(person, ammount);
-} 
+    fundraiser.Donate(person, ammount, currency);
+}  
+
 
 
 
