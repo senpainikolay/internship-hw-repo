@@ -9,8 +9,7 @@ public class Fundraiser : INamedEntity
     public int DonationTarget { get; }
     public string DonationCurrency { get; }
     private List<Person> donorsList { get; set; } = new List<Person>();
-    private Donations donations; 
-
+    private Donations donations;  
 
     public Fundraiser(string title, string description, string donationCurrency, int donationTarget)
     {
@@ -23,8 +22,15 @@ public class Fundraiser : INamedEntity
 
     public void Donate(Person donor, int ammount, string currency)
     {
-        donorsList.Add(donor);
-        donations.RegisterDonation(ammount, currency); 
+        try
+        {
+            donations.RegisterDonation(ammount, currency);
+            donorsList.Add(donor);
+        }
+        catch(Exception)
+        {  
+            Console.WriteLine("Invalid currency on Donations!!!!!!! Try again!!!");
+        }
     }
 
     public string GetTotalDonations()
@@ -37,8 +43,8 @@ public class Fundraiser : INamedEntity
         return donorsList;
     }
 
-    public double  GetConvertedAmmountInTargetCurrency()
-    {
+    public double  GetConvertedAmmountInTargetCurrency() 
+    {   
         return donations.ConvertDonationsToCurrency(DonationCurrency);
     }
 }

@@ -13,10 +13,12 @@
 using PetShelterDemo.DAL;
 using PetShelterDemo.Domain;
 using System.ComponentModel;
+using System.Net.Http.Headers;
 
 var shelter = new PetShelter();
 
-Console.WriteLine("Hello, Welcome the the Pet Shelter!");
+Console.WriteLine("Hello, Welcome the the Pet Shelter!"); 
+
 
 var exit = false;
 try
@@ -62,14 +64,29 @@ void RegisterFundraiser()
     var name = ReadString("Title?");
     var description = ReadString("Description?");
 
-    Console.WriteLine("Select the total sum of donation. The target !  Please specify the ammount and  currency (EUR,USD,RON). Example: 100 RON");
+    Console.WriteLine(" The target? Please specify the ammount and  currency (EUR,USD,RON). Example: 100 RON");
     var userAmmountInput = ReadString();
     int donationTarget = Int32.Parse(userAmmountInput.Split(" ")[0]);
     string currencyTarget = userAmmountInput.Split(" ")[1];
+    bool isValidCurrencyFlag = false;
 
-    var  fundraiser = new Fundraiser(name, description, currencyTarget, donationTarget);
+    foreach (string key in new[] { "EUR", "RON", "USD" }) 
+    {
+        if (currencyTarget.ToUpper() == key) { isValidCurrencyFlag = true; break; }
+    }
+    if (isValidCurrencyFlag == true)
+    {
+        var fundraiser = new Fundraiser(name, description, currencyTarget, donationTarget);
 
-    shelter.RegisterFundraiser( fundraiser );
+        shelter.RegisterFundraiser(fundraiser);
+    } 
+    else
+    {
+        Console.WriteLine("Invalid Currency Choice!!!! Try again!!");
+    }
+   
+       
+   
 }
 
 void Donate()
@@ -100,18 +117,24 @@ void SeeDonations()
     }
 }
 
-void SeePets()
+void  SeePets()
 {
 
-    var pets = shelter.GetAllPets();
+    var pets =   shelter.GetAllPets();
+    if (pets.Count != 0) {
 
-    var petOptions = new Dictionary<string, Action>();
-    foreach (var pet in pets)
+        var petOptions = new Dictionary<string, Action>();
+        foreach (var pet in pets)
+        {
+            petOptions.Add(pet.Name, () => SeePetDetailsByName(pet.Name));
+        }
+
+        PresentOptions("We got..", petOptions);
+    } else
     {
-        petOptions.Add(pet.Name, () => SeePetDetailsByName(pet.Name));
-    }
+        Console.WriteLine("No pets to show... \n");
 
-    PresentOptions("We got..", petOptions);
+    }
 }
 
 void SeePetDetailsByName(string name)
@@ -121,17 +144,26 @@ void SeePetDetailsByName(string name)
 }
 
 void SeeFundraisers()
-{
+{  
+
 
     var fundraisers = shelter.GetAllFundraisers();
+    if (fundraisers.Count != 0)
+    {
 
-    var fundraiserOptions = new Dictionary<string, Action>();
+        var fundraiserOptions = new Dictionary<string, Action>();
     foreach (var fundraiser in fundraisers)
     {
         fundraiserOptions.Add(fundraiser.Name, () => SeeFundraiserDetailsByName(fundraiser.Name));
     }
 
     PresentOptions("Fundraisers to choose from: ", fundraiserOptions);
+
+} else
+{
+    Console.WriteLine("No fundraisers registered yet... \n");
+
+}
 }
 
 
@@ -146,13 +178,28 @@ void SeeFundraiserDetailsByName(string name)
         Console.WriteLine(donor.Name);
     }
 
-      PresentOptions( "Would you like to donate ?",
-           new Dictionary<string, Action>
-           {
+    double currentFundraiseDonationAmmount = fundraiser.GetConvertedAmmountInTargetCurrency();
+
+    if (currentFundraiseDonationAmmount >= fundraiser.DonationTarget)
+    {
+        PresentOptions($"The fundraiser reached its Donation Target! Please take a look at other fundraisers!",
+          new Dictionary<string, Action>
+          {
+                { "Ok. Thank you! ", () =>  {} }
+          }
+      );
+
+    } else {
+
+
+        PresentOptions($"Would you like to donate ?",
+             new Dictionary<string, Action>
+             {
                 { "yes", () => DonateToFundraiser(fundraiser)},
                 { "No, thank you.", () =>  {} }
-           }
-       ); 
+             }
+         );
+    }
 }
 
 void DonateToFundraiser(Fundraiser fundraiser)

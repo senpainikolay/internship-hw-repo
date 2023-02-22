@@ -7,7 +7,7 @@ public class PetShelter
     private readonly IRegistry<Pet> petRegistry;
     private readonly IRegistry<Person> donorRegistry;
     private readonly IRegistry<Fundraiser> fundariserRegistry;
-    private Donations donations;
+    private Donations donations; 
 
 
     public PetShelter()
@@ -23,9 +23,11 @@ public class PetShelter
         petRegistry.Register(pet);
     }
 
-    public IReadOnlyList<Pet> GetAllPets()
+    public   IReadOnlyList<Pet> GetAllPets() 
     {
-        return petRegistry.GetAll().Result; // Actually blocks thread until the result is available.
+   
+            return petRegistry.GetAll().Result; // Actually blocks thread until the result is available. 
+        
     }
 
     public Pet GetByName(string name)
@@ -51,13 +53,19 @@ public class PetShelter
     }
 
 
+
+    // FUNDRAISER
+
     public void RegisterFundraiser(Fundraiser fundraiser)
     {
-        fundariserRegistry.Register(fundraiser);
+  
+            fundariserRegistry.Register(fundraiser);
+
     }
     public IReadOnlyList<Fundraiser> GetAllFundraisers()
-    {
-        return fundariserRegistry.GetAll().Result;
+    { 
+       
+        return  fundariserRegistry.GetAll().Result;
     }
     public Fundraiser GetFundraiserByName(string name)
     {
