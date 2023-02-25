@@ -1,0 +1,14 @@
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.csproj.AssemblyReference.cache
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.AssemblyInfoInputs.cache
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.AssemblyInfo.cs
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.csproj.CoreCompileInputs.cache
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\bin\Debug\net6.0\PetShelterDemo.DataAccessLayer.deps.json
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\bin\Debug\net6.0\PetShelterDemo.DataAccessLayer.runtimeconfig.json
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\bin\Debug\net6.0\PetShelterDemo.DataAccessLayer.dll
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\bin\Debug\net6.0\PetShelterDemo.DataAccessLayer.pdb
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.dll
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\refint\PetShelterDemo.DataAccessLayer.dll
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.pdb
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\PetShelterDemo.DataAccessLayer.genruntimeconfig.cache
+C:\Users\nicol\Desktop\Cegeka-Intersgip\internship-hw-repo\Tema 02 - SQL & ORM\PetShelterDemo\PetShelterDemo.DataAccessLayer\obj\Debug\net6.0\ref\PetShelterDemo.DataAccessLayer.dll
