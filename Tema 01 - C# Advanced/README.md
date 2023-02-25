@@ -1,6 +1,5 @@
  
 #### Did not work on validations so much, so you have to introduce the data how is it asked to ( exmaple, 100 RON, 100 EUR for cases of donations ). 
-#### Will provide a walkthrough later in this day. 
 
 
 Basically we have a <b>  Fundraiser.cs  </b> class which encapsulates the  specified attributes  and a <b> Donations.cs </b> class.  
