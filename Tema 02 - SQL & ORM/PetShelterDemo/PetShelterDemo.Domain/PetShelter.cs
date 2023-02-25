@@ -79,7 +79,7 @@ public class PetShelter
 
     public async Task<Person> GetPersonDetailsById(int id)
     {
-        return await donorRepo.GetPersonById(id);
+        return await donorRepo.GetById(id);
     }
 
 

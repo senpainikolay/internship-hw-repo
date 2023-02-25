@@ -14,8 +14,5 @@ public class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         return await _context.Persons.SingleOrDefaultAsync(p => p.IdNumber == idNumber);
     }
-    public async Task<Person> GetPersonById(int id)
-    {
-        return await _context.Persons.SingleOrDefaultAsync(p => p.Id == id);
-    }
+  
 }
