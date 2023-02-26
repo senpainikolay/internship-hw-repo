@@ -1,6 +1,8 @@
  
 
-I have refactored the First C# Homework and updated it accordingly to the new requirements. 
+I have refactored the First C# Homework and updated it accordingly to the new requirements.  
+
+## Change the  SQL server string: PetShelterDemo.DataAccessLayer.PetshelterContext.cs
 
 #### To test the fundraiser:
 
