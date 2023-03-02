@@ -25,7 +25,9 @@ public static class FundraiserExtentions
            domainFundraiser.Name,
            domainFundraiser.DueDate,
           domainFundraiser.GoalAmount,
-          domainFundraiser.Donors.Select(d => d.AsResource()).ToImmutableArray()
+          domainFundraiser.Donors.Select(d => d.AsResource()).ToImmutableArray(),
+          domainFundraiser.Status,
+          domainFundraiser.CurrentAmount
            );  
         
     }

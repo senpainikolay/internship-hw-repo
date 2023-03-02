@@ -12,8 +12,9 @@ namespace PetShelter.Domain.Extensions.DomainModel
                 return null;
             }
 
-            return new Fundraiser(fundraiser.Name, fundraiser.GoalAmount, fundraiser.DueDate, fundraiser.Status);
+            return new Fundraiser(fundraiser.Name, fundraiser.GoalAmount, fundraiser.DueDate, fundraiser.Status, fundraiser.CurrentAmount);
         }
+     
 
         public static  DataAccessLayer.Models.Fundraiser FromDomainModel(this Fundraiser fundraiser, DataAccessLayer.Models.Person  person)
         {
