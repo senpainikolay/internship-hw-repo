@@ -6,12 +6,13 @@ using PetShelter.Api.Resources.Extensions;
 using PetShelter.Domain;
 using System.Collections.Immutable;
 using PetShelter.Domain.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace PetShelter.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")] 
-
+    [Route("[controller]")]
+    [EnableCors("AllowAll")]
     public class FundraiserController : ControllerBase
     {
         private readonly IFundraiserService _fundraiserService;
@@ -48,7 +49,7 @@ namespace PetShelter.Api.Controllers
             return this.Ok(fundraiser.AsResource());
         }
 
-        [HttpGet("deleteFundraiser/{id}")]
+        [HttpDelete("deleteFundraiser/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> DeleteFundraiser(int id)
         {
@@ -60,7 +61,7 @@ namespace PetShelter.Api.Controllers
         [HttpPost("createFundraiser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreateFundraiser( [FromBody] Resources.Fundraiser fundraiser, int OwnerId)
+        public async Task<IActionResult> CreateFundraiser(int OwnerId, [FromBody] Resources.Fundraiser fundraiser)
         {
             await _fundraiserService.CreateFundraiserAsync(fundraiser.AsDomainModel(), OwnerId);
             return this.Ok(); 
