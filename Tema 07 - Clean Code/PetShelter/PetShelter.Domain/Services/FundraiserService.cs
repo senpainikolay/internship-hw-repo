@@ -1,10 +1,7 @@
-﻿using PetShelter.DataAccessLayer.Models;
-using PetShelter.DataAccessLayer.Repository;
+﻿using PetShelter.DataAccessLayer.Repository;
 using PetShelter.Domain.Exceptions;
-using PetShelter.Domain.Extensions.DataAccess;
 using PetShelter.Domain.Extensions.DomainModel;
 using System.Collections.Immutable;
-
 namespace PetShelter.Domain.Services
 {
     public class FundraiserService  : IFundraiserService
@@ -24,40 +21,63 @@ namespace PetShelter.Domain.Services
 
         public async Task CreateFundraiserAsync(Fundraiser fundraiser, int ownerId)
         {
-            var person = await _personRepository.GetById(ownerId);
+            var person = getExistingPerson(ownerId).Result;
+            await _fundraiserRepository.Add(fundraiser.FromDomainModel(person)); 
+        } 
+
+        private async  Task<DataAccessLayer.Models.Person> getExistingPerson(int id)
+        {
+            var person = await _personRepository.GetById(id);
             if (person == null)
             {
-                throw new NotFoundException($"Owner with id {ownerId} not found for the fundraiser.");
+                throw new NotFoundException($"Owner with id {id} not found for the fundraiser.");
             }
-            await _fundraiserRepository.Add(fundraiser.FromDomainModel(person)); 
-
+            return person; 
         }
+
         public async Task<string?> DonateToFundraiserAsync(Donation donation) 
         {
-            var person = await _personRepository.GetById(donation.DonorId);
-            if (person == null)
-            {
-                throw new NotFoundException($"Owner with id {donation.DonorId} not found for the fundraiser."); 
-            }
-            var fundraiser = await _fundraiserRepository.GetById(donation.FundraiserId);
-
+            var person = getExistingPerson(donation.DonorId).Result;
+            var fundraiser = updateFundraiserStatusDetail(donation).Result;
             if (fundraiser == null)
             {
-                throw new NotFoundException($"Fundraiser with id {donation.FundraiserId} not found for the fundraiser.");
+                return $" Fundraiser with id {donation.FundraiserId} either reached the due date or reached its target! Look into other Fundraiser!";
             }
 
-            if (fundraiser.CurrentAmount >= fundraiser.GoalAmount || fundraiser.Status == "Closed" ) 
-            {
-                return $" Fundraiser with id {donation.FundraiserId} either reached the due date or reached its target! Look into other Fundraiser!" ;
-            }
-            fundraiser.CurrentAmount += donation.Amount;
-            if (fundraiser.CurrentAmount >= fundraiser.GoalAmount || DateTime.Now >= fundraiser.DueDate ) { fundraiser.Status = "Closed"; await _fundraiserRepository.Update(fundraiser); }
-
-           await _donationRepository.Add(donation.FromDomainModel(person,fundraiser));  
+            await _donationRepository.Add(donation.FromDomainModel(person,fundraiser));  
 
 
            return null;
+            
+        }
 
+        private async Task<DataAccessLayer.Models.Fundraiser?> updateFundraiserStatusDetail(Donation donation )
+        {
+            var fundraiser = await getExistingFundraiser(donation.FundraiserId);
+
+            if (fundraiser.CurrentAmount >= fundraiser.GoalAmount || fundraiser.Status == "Closed")
+            {
+                return null;
+            }
+
+            fundraiser.CurrentAmount += donation.Amount;
+            if (fundraiser.CurrentAmount >= fundraiser.GoalAmount || DateTime.Now >= fundraiser.DueDate) 
+            { 
+                fundraiser.Status = "Closed";
+                await _fundraiserRepository.Update(fundraiser); 
+            }
+            return fundraiser; 
+        }
+
+        private async Task<DataAccessLayer.Models.Fundraiser> getExistingFundraiser(int id)
+        {
+            var fundraiser = await _fundraiserRepository.GetById(id);
+
+            if (fundraiser == null)
+            {
+                throw new NotFoundException($"Fundraiser with id {id} not found for the fundraiser.");
+            }
+            return fundraiser;
         }
 
         public async Task<ICollection<Fundraiser?>> GetAllFundraisers()
@@ -68,40 +88,39 @@ namespace PetShelter.Domain.Services
 
 
         public async Task DeleteFundaiser(int fundraiserId)
-        {  
-            var fundraiser = await _fundraiserRepository.GetById(fundraiserId); 
-            if (fundraiser == null)
-            {
-                throw new NotFoundException($"Fundraiser with id {fundraiserId} not found for deletion/closing!!");
+        {
+            var fundraiser = await getExistingFundraiser(fundraiserId);
 
-            }
             await _fundraiserRepository.DeleteFundraiser(fundraiser); 
             
         }
 
         public async Task<Fundraiser?> GetFundraiser(int fundraiserId)
         {
-            var fundraiser = await _fundraiserRepository.GetById(fundraiserId);
-            if (fundraiser == null)
-            {
-                return null;
-            }
+            var fundraiser = await getExistingFundraiser(fundraiserId);
+
+            return updateDonorsForFundraiser(fundraiser).Result; 
+
+        } 
+
+        private async Task<Fundraiser> updateDonorsForFundraiser(DataAccessLayer.Models.Fundraiser fundraiser)
+        {
             var domainFundraiser = fundraiser.ToDomainModel();
 
-            var donors = await _fundraiserRepository.GetDonorsForFundraiserId(fundraiserId); 
+            var donors = await _fundraiserRepository.GetDonorsForFundraiserId(fundraiser.Id);
 
             if (donors == null)
             {
                 return domainFundraiser;
 
-            } else
-            {
-                domainFundraiser.Donors = donors.Select(d => d.ToDomainModel()).ToImmutableArray(); 
-                return domainFundraiser;
             }
+            domainFundraiser.Donors = donors.Select(d => d.ToDomainModel()).ToImmutableArray();
+            return domainFundraiser; 
 
         }
 
-     
+
+
+
     }
 }

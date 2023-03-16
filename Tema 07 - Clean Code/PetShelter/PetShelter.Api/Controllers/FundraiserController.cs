@@ -25,11 +25,10 @@ namespace PetShelter.Api.Controllers
         
         [HttpGet("getAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ICollection<FundraiserMinimalInfo>>> GetFundraisers()
         {
-            var data = await this._fundraiserService.GetAllFundraisers();
-            return this.Ok(data.Select(p => p.AsMinimalResource()).ToImmutableArray());
+            var fundraisers = await this._fundraiserService.GetAllFundraisers();
+            return this.Ok(fundraisers.Select(p => p.AsMinimalResource()).ToImmutableArray());
         }
 
     
@@ -75,17 +74,15 @@ namespace PetShelter.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> DonateToFundraiser([FromBody] Resources.Donation donation)
         {
-            var res = await _fundraiserService.DonateToFundraiserAsync(donation.AsDomainModel());
-            if (res == null) 
-            { return this.Ok(); 
-            } else { 
-                return this.StatusCode(406, res); 
+            var donationToFundraiserFailureMessage = await _fundraiserService.DonateToFundraiserAsync(donation.AsDomainModel());
+            if (donationToFundraiserFailureMessage == null) 
+            { 
+                return this.Ok(); 
             }
-
+            
+            return this.StatusCode(406, donationToFundraiserFailureMessage); 
+           
         }
-
-
-
 
     }
 }
